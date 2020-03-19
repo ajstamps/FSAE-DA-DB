@@ -1,0 +1,176 @@
+swagger: '2.0'
+info:
+  version: 'dev'
+  title: 'fsae-rest-api'
+  description: 'Web Application API used by the Wild Hare Racing at South Dakota State University'
+
+paths:
+  /cars:
+    get:
+      description: Returns a list a cars
+      responses:
+        200:
+          description: Successfully return list of cars
+          
+          schema:
+            type: array
+            items:
+              type: object
+              required:
+              - car_year
+              - car_id
+              properties:
+                car_year:
+                  type: integer
+                car_id:
+                  type: integer
+
+        500:
+          description: Server Error 
+          schema:
+            type: object
+            properties:   
+              message:
+                type: string
+
+  /cars/{car_id}:
+    get:
+      description: Returns a information about specified car
+      parameters:
+      - name: car_id
+        in: path 
+        type: string
+        required: true
+
+      responses:
+        200:
+          description: Successfully return car information
+
+          
+          schema:
+            type: object
+            required:
+             - car_id
+             - car_year
+             - can_spec_list_id
+            properties:
+              car_year:
+               type: integer
+              car_id:
+                type: integer
+              can_spec_list_id:
+                type: integer
+        
+        500:
+          description: Server Error 
+          schema:
+            type: object
+            properties:   
+              message:
+                type: string
+                
+  /cars/{car_id}/tests:
+    get:
+      description: Returns all dates that the car was tested
+      parameters:
+      - name: car_id
+        in: path 
+        type: string
+        required: true
+
+      responses:
+        200:
+          description: Successfully returns dates that the car was tested
+          schema:
+            type: object
+            properties:   
+              test_dates:
+                type: array
+                items:
+                  type: string
+
+        500:
+          description: Server Error 
+          schema:
+            type: object
+            properties:   
+              message:
+                type: string
+
+  /cars/{car_id}/tests/{date}:
+    get:
+      description: Returns tests performed with car on specified date
+      parameters:
+      - name: car_id
+        in: path 
+        type: string
+        required: true
+      - name: date
+        in: path 
+        type: string
+        required: true
+
+      responses:
+        200:
+          description: Successfully returns tests performed with car on specified date
+          schema:
+            type: object
+            properties:   
+              test_times:
+                type: array
+                items:
+                  type: string
+
+
+        500:
+          description: Server Error 
+          schema:
+            type: object
+            properties:   
+              message:
+                type: string
+
+  /cars/{car_id}/tests/{date}/{time}:
+    get:
+      description: Returns timestamp data for specific channel
+      parameters:
+      - name: car_id
+        in: path 
+        type: string
+        required: true
+      - name: date
+        in: path 
+        type: string
+        required: true
+      - name: time
+        in: path 
+        type: string
+        required: true
+      - name: channel
+        in: query
+        type: string
+        required: true
+        description: Specifies channel to receive data ex) RPM
+
+      responses:
+        200:
+          description: Successfully returns timestamp data for specific channel
+          schema:
+            type: object
+            properties:   
+              timestamp:
+                type: array
+                items:
+                  type: string
+              data:
+                type: array
+                items:
+                  type: string
+
+        500:
+          description: Server Error 
+          schema:
+            type: object
+            properties:   
+              message:
+                type: string
